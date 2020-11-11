@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mybatis.dao.UserMapper">
+    <!--sql语句抽取-->
+    <sql id="userSql">select * from user</sql>
+    <!--查询-->
+    <select id="findAll" resultType="user">
+        <include refid="userSql"></include>
+    </select>
+    <select id="findUserById" parameterType="int" resultType="user">
+        <include refid="userSql"></include> where id = #{id};
+    </select>
+    <!--条件查询-->
+    <select id="findByCondition" resultType="user" parameterType="user">
+        <include refid="userSql"></include>
+        <where>
+            <if test="id != 0">
+                id = #{id}
+            </if>
+            <if test="username != null">
+                and username = #{username}
+            </if>
+            <if test="password != null">
+                and password = #{password}
+            </if>
+        </where>
+    </select>
+    <!--or in()-->
+    <select id="findByIds" parameterType="list" resultType="user">
+        <include refid="userSql"></include> <!--where id in(1,2,3)-->
+        <where>
+            <foreach collection="list" item="id" open="id in(" close=")" separator=",">
+                #{id}
+            </foreach>
+        </where>
+    </select>
+    <!--插入-->
+    <!--<insert id="addUser" parameterType="user">
+        insert into user values (#{id},#{username},#{password});
+    </insert>-->
+    <insert id="addUser" parameterType="user">
+        insert into user values (#{id},#{username},#{password},#{birthday});
+    </insert>
+    <!--修改-->
+<!--    <update id="userUpdate" parameterType="com.mybatis.domain.User">-->
+    <update id="userUpdate" parameterType="user">
+        update user set username=#{username},password=${password} where id = #{id};
+    </update>
+    <!--删除-->
+<!--    <delete id="delete" parameterType="java.lang.Integer">-->
+    <delete id="delete" parameterType="int">
+        <!--#{id} id可以随便命名 不能使用/**/注释-->
+        delete from user where id = #{id};
+    </delete>
+</mapper>

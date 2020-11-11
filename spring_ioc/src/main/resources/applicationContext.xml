@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <import resource="applicationContext-user.xml"/>
+    <import resource="applicationContext-dataSource.xml"/>
+<!--  无参构造方法实例化Bean  -->
+<!--    <bean id="userDao" class="com.springTest.dao.daoImp.UserDaoImp"  init-method="init" destroy-method="destroy"></bean>-->
+<!--  工厂静态方法实例化Bean  -->
+<!--    <bean id="userDao" class="com.springTest.factory.StaticFactory" factory-method="getUserDao"></bean>-->
+<!--  工厂实例方法实例化Bean  -->
+<!--    <bean id="factory" class="com.springTest.factory.DynamicFactory"></bean>-->
+<!--    <bean id="userDao" factory-bean="factory" factory-method="getUserDao"></bean>-->
+    <bean id="userDao" class="com.springTest.dao.daoImp.UserDaoImp" >
+        <property name="age" value="22"></property>
+        <property name="username" value="jing"></property>
+    </bean>
+
+    <bean id="userDao2" class="com.springTest.dao.daoImp.UserDaoImp2">
+        <property name="list">
+            <list>
+                <value>aaa</value>
+                <value>bbb</value>
+                <value>ccc</value>
+            </list>
+        </property>
+        <property name="map">
+            <map>
+                <entry key="user1" value-ref="user1"></entry>
+                <entry key="user2" value-ref="user2"></entry>
+            </map>
+        </property>
+        <property name="prop">
+            <props>
+                <prop key="p1">1</prop>
+                <prop key="p2">2</prop>
+                <prop key="p3">3</prop>
+            </props>
+        </property>
+    </bean>
+
+
+    <!--    set方法注入依赖-->
+    <!--  注入依赖
+        <bean id="userService" class="com.springTest.service.imp.UserServiceImp">
+            <property name="userDao" ref="userDao"></property>
+        </bean>
+    -->
+<!--    <bean id="userService" class="com.springTest.service.imp.UserServiceImp" p:userDao-ref="userDao"></bean>-->
+<!--    构造方法注入依赖-->
+    <bean id="userService" class="com.springTest.service.imp.UserServiceImp">
+        <constructor-arg name="userDao" ref="userDao2"></constructor-arg>
+    </bean>
+
+   
+</beans>

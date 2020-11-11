@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!--加载配置文件-->
+    <properties resource="druid.properties"></properties>
+    <!--起别名-->
+    <typeAliases>
+        <typeAlias type="com.mybatis_anno.domain.User" alias="user"></typeAlias>
+        <typeAlias type="com.mybatis_anno.handler.DateHandler" alias="dateHandler"></typeAlias>
+    </typeAliases>
+    <!--配置类型处理器-->
+   <!-- <typeHandlers>
+        <typeHandler handler="dateHandler"/>
+    </typeHandlers>-->
+    <!--配置数据源环境-->
+    <environments default="druid">
+        <environment id="druid">
+            <transactionManager type="JDBC"></transactionManager>
+            <dataSource type="POOLED">
+                <property name="driver" value="${driverClassName}"/>
+                <property name="url"
+                          value="${url}"/>
+                <property name="username" value="${user}"/>
+                <property name="password" value="${password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <!--加载映射关系-->
+    <!--文件-->
+    <!--<mapper resource="com\mybatis_anno\mapper\UserMapper_xml.xml" />-->
+    <mappers>
+        <!--指定接口所在的包-->
+        <package name="com.mybatis_anno.mapper"/>
+    </mappers>
+</configuration>

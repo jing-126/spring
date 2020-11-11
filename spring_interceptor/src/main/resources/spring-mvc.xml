@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/mvc  http://www.springframework.org/schema/mvc/spring-mvc.xsd
+       http://www.springframework.org/schema/context  http://www.springframework.org/schema/context/spring-context.xsd
+">
+    <!--mvc注解驱动-->
+    <mvc:annotation-driven/>
+
+    <!--配置视图解析器-->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/"></property>
+        <property name="suffix" value=".jsp"></property>
+    </bean>
+
+    <!--静态资源访问-->
+    <!--<mvc:resources mapping="" location=""/>-->
+    <!--如果SpringMVC找不到相应的资源交给默认的容器（Tomcat）寻找-->
+    <mvc:default-servlet-handler/>
+
+    <!--组件扫描 扫描controller-->
+    <context:component-scan base-package="com.spring.controller"/>
+
+    <!--配置拦截器-->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <!--配置哪些资源执行拦截的操作-->
+            <mvc:mapping path="/**"/>
+            <!--不拦截的操作-->
+            <mvc:exclude-mapping path="/favicon.ico"/>
+
+            <bean class="com.spring.interceptor.MyInterceptor01"></bean>
+        </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <bean class="com.spring.interceptor.MyInterceptor02"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+</beans>

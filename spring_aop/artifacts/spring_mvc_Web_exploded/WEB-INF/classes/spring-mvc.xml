@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context  http://www.springframework.org/schema/context/spring-context.xsd
+                           http://www.springframework.org/schema/mvc  http://www.springframework.org/schema/mvc/spring-mvc.xsd
+">
+    <!--Controller组件扫描-->
+    <context:component-scan base-package="com.spring_mvc.controller">
+    </context:component-scan>
+    <bean id="q" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value=""/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+    <!--配置处理器适配器-->
+    <!--<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+        <property name="messageConverters">
+            <list>
+                <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"></bean>
+            </list>
+        </property>
+    </bean>-->
+    <!--mvc注解驱动 开启视图解析器-->
+    <mvc:annotation-driven conversion-service="conversionService2"/>
+    <!--开放资源的访问-->
+    <!--<mvc:resources mapping="/js/**" location="/js/"></mvc:resources>-->
+    <!--如果SpringMVC找不到相应的资源交给默认的容器（Tomcat）寻找-->
+    <mvc:default-servlet-handler/>
+
+    <!--声明转换器  转换器服务工厂对象-->
+    <bean id="conversionService2" class="org.springframework.context.support.ConversionServiceFactoryBean">
+        <property name="converters">
+            <list>
+                <bean class="com.spring_mvc.converter.DateConverter"></bean>
+            </list>
+        </property>
+    </bean>
+
+    <!--配置文件上传解析器-->
+    <bean class="org.springframework.web.multipart.commons.CommonsMultipartResolver" id="multipartResolver">
+        <!--上传文件总大小 5MB 1024*1024*5-->
+        <property name="maxUploadSize" value="5242800"/>
+        <!--上传单个文件的大小-->
+        <property name="maxUploadSizePerFile" value="5242800"/>
+        <!--上传文件的编码类型-->
+        <property name="defaultEncoding" value="UTF-8"/>
+    </bean>
+</beans>

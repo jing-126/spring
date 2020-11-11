@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!--加载properties配置文件-->
+    <properties resource="druid.properties"></properties>
+    <!--起别名-->
+    <typeAliases>
+        <typeAlias type="com.mybatis_multi.domain.User" alias="user"></typeAlias>
+        <typeAlias type="com.mybatis_multi.domain.Order" alias="order"></typeAlias>
+        <typeAlias type="com.mybatis_multi.handler.DateHandler" alias="dateHandler"></typeAlias>
+        <typeAlias type="com.mybatis_multi.domain.Role" alias="role"></typeAlias>
+    </typeAliases>
+
+    <!--数据源环境-->
+    <environments default="druid">
+        <environment id="druid">
+            <transactionManager type="JDBC"></transactionManager>
+            <dataSource type="POOLED">
+                <!--配置数据源-->
+                <property name="driver" value="${driverClassName}"/>
+                <property name="url"
+                          value="${url}"/>
+                <property name="username" value="${user}"/>
+                <property name="password" value="${password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <mappers>
+        <mapper resource="com\mybatis_multi\mapper\UserMapper.xml"></mapper>
+        <mapper resource="com\mybatis_multi\mapper\OrderMapper.xml"></mapper>
+    </mappers>
+
+
+</configuration>
